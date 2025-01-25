@@ -12,7 +12,8 @@ class AddressBookMain {
       console.log("\nMenu:");
       console.log("1. Add New Address Book");
       console.log("2. Select Address Book");
-      console.log("3. Exit");
+      console.log("3. Display All Address Books");
+      console.log("4. Exit");
       const choice = readline.question("Enter your choice: ");
 
       switch (choice) {
@@ -22,7 +23,10 @@ class AddressBookMain {
         case "2":
           this.selectAddressBook();
           break;
-        case "3":
+          case "3":
+            this.displayAllAddressBook();
+            break;
+        case "4":
           console.log("Exiting Address Book Program. Goodbye!");
           return;
         default:
@@ -71,6 +75,19 @@ class AddressBookMain {
           console.log("Invalid choice. Try again.");
       }
     }
+  }
+
+  displayAllAddressBook(): void{
+    if(this.addressBooks.size===0){
+      console.log("Address Books Not Found.!");
+    }
+    else{
+    this.addressBooks.forEach((addressBook, name) => {
+      console.log(`Address Book Name: ${name}`);
+      addressBook.displayContacts();
+    });
+  }
+    
   }
 
   getContactDetails(isPartial: boolean = false): Partial<ContactPerson> | ContactPerson {
