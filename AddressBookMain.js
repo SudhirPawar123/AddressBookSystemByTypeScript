@@ -55,17 +55,23 @@ var AddressBookMain = /** @class */ (function () {
             console.log("\nManaging Address Book: ".concat(name));
             console.log("1. Add Contact");
             console.log("2. Display Contacts");
-            console.log("3. Back");
+            console.log("3. Edit Contact");
+            console.log("4. Back");
             var choice = readline.question("Enter your choice: ");
             switch (choice) {
                 case "1":
-                    var newContact = this.getContactDetails(false); // Ensure we return a complete contact
+                    var newContact = this.getContactDetails(false);
                     addressBook.addContact(newContact);
                     break;
                 case "2":
                     addressBook.displayContacts();
                     break;
                 case "3":
+                    var editName = readline.question("Enter the name of the contact to edit (First Last): ");
+                    var updatedDetails = this.getContactDetails(true);
+                    addressBook.editContact(editName, updatedDetails);
+                    break;
+                case "4":
                     console.log("Existing from address book..!");
                     return;
                 default:
@@ -91,17 +97,14 @@ var AddressBookMain = /** @class */ (function () {
         fields.forEach(function (field) {
             var value = readline.question("Enter ".concat(field, ": "));
             if (isPartial && value.trim() === "")
-                return; // Skip for partial updates
+                return;
             details[field.toLowerCase().replace(/ /g, "")] = field === "Zip" ? parseInt(value) : value;
         });
         if (!isPartial) {
-            // Return a complete ContactPerson object
             return new ContactPerson_1.ContactPerson(details.firstname, details.lastname, details.address, details.city, details.state, details.zip, details.phonenumber, details.email);
         }
-        // Return a partial contact for updates
         return details;
     };
     return AddressBookMain;
 }());
-// Start the program
 new AddressBookMain().start();

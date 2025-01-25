@@ -57,18 +57,24 @@ class AddressBookMain {
       console.log(`\nManaging Address Book: ${name}`);
       console.log("1. Add Contact");
       console.log("2. Display Contacts");
-      console.log("3. Back");
+      console.log("3. Edit Contact");
+      console.log("4. Back");
       const choice = readline.question("Enter your choice: ");
 
       switch (choice) {
         case "1":
-            const newContact = this.getContactDetails(false) as ContactPerson; // Ensure we return a complete contact
+            const newContact = this.getContactDetails(false) as ContactPerson; 
             addressBook.addContact(newContact);
           break;
         case "2":
           addressBook.displayContacts();
           break;
-        case "3":
+          case "3" :
+            const editName = readline.question("Enter the name of the contact to edit (First Last): ");
+            const updatedDetails = this.getContactDetails(true);
+            addressBook.editContact(editName, updatedDetails);
+          break;
+        case "4":
             console.log("Existing from address book..!");
           return;
         default:
@@ -96,12 +102,11 @@ class AddressBookMain {
 
     fields.forEach((field) => {
       const value = readline.question(`Enter ${field}: `);
-      if (isPartial && value.trim() === "") return; // Skip for partial updates
+      if (isPartial && value.trim() === "") return; 
       details[field.toLowerCase().replace(/ /g, "")] = field === "Zip" ? parseInt(value) : value;
     });
 
-    if (!isPartial) {
-        // Return a complete ContactPerson object
+    if (!isPartial) {       
         return new ContactPerson(
           details.firstname,
           details.lastname,
@@ -113,10 +118,8 @@ class AddressBookMain {
           details.email
         );
       }
-      // Return a partial contact for updates
   return details;
   }
 }
 
-// Start the program
 new AddressBookMain().start();

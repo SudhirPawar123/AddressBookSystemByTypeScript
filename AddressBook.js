@@ -5,7 +5,6 @@ var AddressBook = /** @class */ (function () {
     function AddressBook() {
         this.contacts = [];
     }
-    // Add a new contact
     AddressBook.prototype.addContact = function (contact) {
         if (this.contacts.find(function (c) { return c.firstname === contact.firstname && c.lastname === contact.lastname; })) {
             console.log("Duplicate contact found. Cannot add.");
@@ -22,6 +21,15 @@ var AddressBook = /** @class */ (function () {
         else {
             this.contacts.forEach(function (contact) { return console.log(contact.toString()); });
         }
+    };
+    AddressBook.prototype.editContact = function (name, updatedContact) {
+        var contact = this.contacts.find(function (c) { return "".concat(c.firstname, " ").concat(c.lastname) === name; });
+        if (!contact) {
+            console.log("Contact not found.");
+            return;
+        }
+        Object.assign(contact, updatedContact);
+        console.log("Contact updated successfully!");
     };
     return AddressBook;
 }());

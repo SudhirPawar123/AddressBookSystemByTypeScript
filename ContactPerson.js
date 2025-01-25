@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContactPerson = void 0;
-// src/ContactPerson.ts
 var ContactPerson = /** @class */ (function () {
     function ContactPerson(firstname, lastname, address, city, state, zip, phonenumber, email) {
         this.firstname = firstname;
@@ -21,7 +20,6 @@ var ContactPerson = /** @class */ (function () {
         this.phonenumber = phonenumber;
         this.email = email;
     }
-    // Override toString for better display
     ContactPerson.prototype.toString = function () {
         return "[ ".concat(this.firstname, " ,").concat(this.lastname, ", ").concat(this.address, ", ").concat(this.city, ", ").concat(this.state, ", ").concat(this.zip, ", ").concat(this.phonenumber, ", ").concat(this.email, " ]");
     };

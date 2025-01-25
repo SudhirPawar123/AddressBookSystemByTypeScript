@@ -1,4 +1,3 @@
-// src/ContactPerson.ts
 export class ContactPerson {
     constructor(
       public firstname: string,
@@ -20,7 +19,6 @@ export class ContactPerson {
       this.email=email;
     }
   
-    // Override toString for better display
     toString(): string {
       return `[ ${this.firstname} ,${this.lastname}, ${this.address}, ${this.city}, ${this.state}, ${this.zip}, ${this.phonenumber}, ${this.email} ]`;
     }
