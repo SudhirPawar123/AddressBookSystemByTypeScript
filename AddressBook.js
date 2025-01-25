@@ -31,6 +31,16 @@ var AddressBook = /** @class */ (function () {
         Object.assign(contact, updatedContact);
         console.log("Contact updated successfully!");
     };
+    AddressBook.prototype.deleteContact = function (name) {
+        var initialLength = this.contacts.length;
+        this.contacts = this.contacts.filter(function (c) { return "".concat(c.firstname, " ").concat(c.lastname) !== name; });
+        if (this.contacts.length < initialLength) {
+            console.log("Contact deleted successfully!");
+        }
+        else {
+            console.log("Contact not found.");
+        }
+    };
     return AddressBook;
 }());
 exports.AddressBook = AddressBook;

@@ -58,7 +58,8 @@ class AddressBookMain {
       console.log("1. Add Contact");
       console.log("2. Display Contacts");
       console.log("3. Edit Contact");
-      console.log("4. Back");
+      console.log("4. Delete Contact");
+      console.log("5. Back");
       const choice = readline.question("Enter your choice: ");
 
       switch (choice) {
@@ -74,7 +75,11 @@ class AddressBookMain {
             const updatedDetails = this.getContactDetails(true);
             addressBook.editContact(editName, updatedDetails);
           break;
-        case "4":
+          case "4" :
+            const deleteName = readline.question("Enter the name of the contact to delete (First Last): ");
+          addressBook.deleteContact(deleteName);
+          break;
+        case "5":
             console.log("Existing from address book..!");
           return;
         default:

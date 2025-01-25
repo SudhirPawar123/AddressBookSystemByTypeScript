@@ -31,4 +31,14 @@ export class AddressBook {
     Object.assign(contact, updatedContact);
     console.log("Contact updated successfully!");
   }
+
+  deleteContact(name: string): void {
+    const initialLength = this.contacts.length;
+    this.contacts = this.contacts.filter((c) => `${c.firstname} ${c.lastname}` !== name);
+    if (this.contacts.length < initialLength) {
+      console.log("Contact deleted successfully!");
+    } else {
+      console.log("Contact not found.");
+    }
+  }
 }
