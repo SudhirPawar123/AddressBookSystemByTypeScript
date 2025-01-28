@@ -11,17 +11,9 @@ var ContactPerson = /** @class */ (function () {
         this.zip = zip;
         this.phonenumber = phonenumber;
         this.email = email;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-        this.phonenumber = phonenumber;
-        this.email = email;
     }
     ContactPerson.prototype.toString = function () {
-        return "[ ".concat(this.firstname, " ,").concat(this.lastname, ", ").concat(this.address, ", ").concat(this.city, ", ").concat(this.state, ", ").concat(this.zip, ", ").concat(this.phonenumber, ", ").concat(this.email, " ]");
+        return "[".concat(this.firstname, " ").concat(this.lastname, ", ").concat(this.address, ", ").concat(this.city, ", ").concat(this.state, ", ").concat(this.zip, ", ").concat(this.phonenumber, ", ").concat(this.email, "]");
     };
     return ContactPerson;
 }());

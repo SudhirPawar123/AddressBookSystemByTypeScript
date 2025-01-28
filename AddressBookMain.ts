@@ -79,7 +79,7 @@ class AddressBookMain {
             const deleteName = readline.question("Enter the name of the contact to delete (First Last): ");
           addressBook.deleteContact(deleteName);
           break;
-        case "5":
+         case "5":
             console.log("Existing from address book..!");
           return;
         default:
