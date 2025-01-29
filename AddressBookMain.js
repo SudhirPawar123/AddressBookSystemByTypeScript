@@ -13,7 +13,8 @@ var AddressBookMain = /** @class */ (function () {
             console.log("1. Add New Address Book");
             console.log("2. Select Address Book");
             console.log("3. Search Person by City or State Across All Address Books");
-            console.log("4. Exit");
+            console.log("4. Count Contacts by City or State Across All Address Books");
+            console.log("5. Exit");
             var choice = readline.question("Enter your choice: ");
             switch (choice) {
                 case "1":
@@ -26,6 +27,9 @@ var AddressBookMain = /** @class */ (function () {
                     this.searchPersonAcrossAddressBooks();
                     break;
                 case "4":
+                    this.countContactsAcrossAddressBooks();
+                    break;
+                case "5":
                     console.log("Exiting Address Book Program. Goodbye!");
                     return;
                 default:
@@ -88,6 +92,14 @@ var AddressBookMain = /** @class */ (function () {
             results = results.concat(addressBook.searchByCityOrState(location));
         });
         console.log("Search results across all Address Books:", results);
+    };
+    AddressBookMain.prototype.countContactsAcrossAddressBooks = function () {
+        var location = readline.question("Enter City or State to count contacts: ");
+        var count = 0;
+        this.addressBooks.forEach(function (addressBook) {
+            count += addressBook.getCountByCityOrState(location);
+        });
+        console.log("Total contacts in ".concat(location, ":"), count);
     };
     AddressBookMain.prototype.getContactDetails = function () {
         return {

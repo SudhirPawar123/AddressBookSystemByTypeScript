@@ -44,4 +44,9 @@ export class AddressBook {
   searchByCityOrState(location: string): ContactPerson[] {
     return this.contacts.filter(c => c.city === location || c.state === location);
   }
+
+  getCountByCityOrState(location: string): number {
+    return this.contacts.filter(c => c.city === location || c.state === location).length;
+  }
+
 }

@@ -12,7 +12,8 @@ class AddressBookMain {
       console.log("1. Add New Address Book");
       console.log("2. Select Address Book");
       console.log("3. Search Person by City or State Across All Address Books");
-      console.log("4. Exit");
+      console.log("4. Count Contacts by City or State Across All Address Books");
+      console.log("5. Exit");
       const choice = readline.question("Enter your choice: ");
 
       switch (choice) {
@@ -25,9 +26,12 @@ class AddressBookMain {
           case "3":
             this.searchPersonAcrossAddressBooks();
             break;
-        case "4":
-          console.log("Exiting Address Book Program. Goodbye!");
-          return;
+            case "4":
+              this.countContactsAcrossAddressBooks();
+              break;
+            case "5":
+              console.log("Exiting Address Book Program. Goodbye!");
+              return;
         default:
           console.log("Invalid choice. Try again.");
       }
@@ -93,6 +97,14 @@ class AddressBookMain {
     console.log("Search results across all Address Books:", results);
   }
 
+  countContactsAcrossAddressBooks(): void {
+    const location = readline.question("Enter City or State to count contacts: ");
+    let count = 0;
+    this.addressBooks.forEach(addressBook => {
+      count += addressBook.getCountByCityOrState(location);
+    });
+    console.log(`Total contacts in ${location}:`, count);
+  }
 
   getContactDetails(): ContactPerson {
     return {

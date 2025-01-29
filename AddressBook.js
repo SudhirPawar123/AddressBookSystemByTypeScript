@@ -43,6 +43,9 @@ var AddressBook = /** @class */ (function () {
     AddressBook.prototype.searchByCityOrState = function (location) {
         return this.contacts.filter(function (c) { return c.city === location || c.state === location; });
     };
+    AddressBook.prototype.getCountByCityOrState = function (location) {
+        return this.contacts.filter(function (c) { return c.city === location || c.state === location; }).length;
+    };
     return AddressBook;
 }());
 exports.AddressBook = AddressBook;
