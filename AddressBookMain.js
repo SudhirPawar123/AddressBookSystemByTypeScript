@@ -14,7 +14,8 @@ var AddressBookMain = /** @class */ (function () {
             console.log("2. Select Address Book");
             console.log("3. Search Person by City or State Across All Address Books");
             console.log("4. Count Contacts by City or State Across All Address Books");
-            console.log("5. Exit");
+            console.log("5. Sort Contacts by Name Across All Address Books");
+            console.log("6. Exit");
             var choice = readline.question("Enter your choice: ");
             switch (choice) {
                 case "1":
@@ -30,6 +31,9 @@ var AddressBookMain = /** @class */ (function () {
                     this.countContactsAcrossAddressBooks();
                     break;
                 case "5":
+                    this.sortContactsByNameAcrossAllAddressBooks();
+                    break;
+                case "6":
                     console.log("Exiting Address Book Program. Goodbye!");
                     return;
                 default:
@@ -100,6 +104,14 @@ var AddressBookMain = /** @class */ (function () {
             count += addressBook.getCountByCityOrState(location);
         });
         console.log("Total contacts in ".concat(location, ":"), count);
+    };
+    AddressBookMain.prototype.sortContactsByNameAcrossAllAddressBooks = function () {
+        var allContacts = [];
+        this.addressBooks.forEach(function (addressBook) {
+            allContacts = allContacts.concat(addressBook["contacts"]);
+        });
+        allContacts.sort(function (a, b) { return a.firstName.localeCompare(b.firstName); });
+        console.log("Sorted Contacts:", allContacts);
     };
     AddressBookMain.prototype.getContactDetails = function () {
         return {
