@@ -1,45 +1,47 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddressBook = void 0;
+var readline = require("readline-sync");
 var AddressBook = /** @class */ (function () {
     function AddressBook() {
         this.contacts = [];
     }
     AddressBook.prototype.addContact = function (contact) {
-        if (this.contacts.find(function (c) { return c.firstname === contact.firstname && c.lastname === contact.lastname; })) {
-            console.log("Duplicate contact found. Cannot add.");
+        if (this.contacts.some(function (c) { return c.firstName === contact.firstName && c.lastName === contact.lastName; })) {
+            console.log("Duplicate contact entry is not allowed.");
             return;
         }
         this.contacts.push(contact);
         console.log("Contact added successfully!");
     };
-    AddressBook.prototype.displayContacts = function () {
-        console.log("Address Book:");
-        if (this.contacts.length === 0) {
-            console.log("No contacts available.");
-        }
-        else {
-            this.contacts.forEach(function (contact) { return console.log(contact.toString()); });
-        }
-    };
-    AddressBook.prototype.editContact = function (name, updatedContact) {
-        var contact = this.contacts.find(function (c) { return "".concat(c.firstname, " ").concat(c.lastname) === name; });
+    AddressBook.prototype.editContact = function (name) {
+        var contact = this.contacts.find(function (c) { return c.firstName === name; });
         if (!contact) {
             console.log("Contact not found.");
             return;
         }
-        Object.assign(contact, updatedContact);
+        console.log("Editing contact: ", contact);
+        Object.keys(contact).forEach(function (key) {
+            var newValue = readline.question("Enter new ".concat(key, " (leave empty to keep unchanged): "));
+            if (newValue)
+                contact[key] = key === "zip" ? parseInt(newValue) : newValue;
+        });
         console.log("Contact updated successfully!");
     };
     AddressBook.prototype.deleteContact = function (name) {
-        var initialLength = this.contacts.length;
-        this.contacts = this.contacts.filter(function (c) { return "".concat(c.firstname, " ").concat(c.lastname) !== name; });
-        if (this.contacts.length < initialLength) {
-            console.log("Contact deleted successfully!");
+        this.contacts = this.contacts.filter(function (c) { return c.firstName !== name; });
+        console.log("Contact deleted successfully!");
+    };
+    AddressBook.prototype.displayContacts = function () {
+        if (this.contacts.length === 0) {
+            console.log("No contacts available.");
+            return;
         }
-        else {
-            console.log("Contact not found.");
-        }
+        console.log("Contacts:");
+        this.contacts.forEach(function (contact) { return console.log(contact); });
+    };
+    AddressBook.prototype.searchByCityOrState = function (location) {
+        return this.contacts.filter(function (c) { return c.city === location || c.state === location; });
     };
     return AddressBook;
 }());

@@ -7,12 +7,11 @@ class AddressBookMain {
 
   start(): void {
     console.log("Welcome to Address Book Program");
-
     while (true) {
       console.log("\nMenu:");
       console.log("1. Add New Address Book");
       console.log("2. Select Address Book");
-      console.log("3. Display All Address Books");
+      console.log("3. Search Person by City or State Across All Address Books");
       console.log("4. Exit");
       const choice = readline.question("Enter your choice: ");
 
@@ -24,7 +23,7 @@ class AddressBookMain {
           this.selectAddressBook();
           break;
           case "3":
-            this.displayAllAddressBook();
+            this.searchPersonAcrossAddressBooks();
             break;
         case "4":
           console.log("Exiting Address Book Program. Goodbye!");
@@ -52,35 +51,32 @@ class AddressBookMain {
       console.log("Address Book not found.");
       return;
     }
-
     while (true) {
       console.log(`\nManaging Address Book: ${name}`);
       console.log("1. Add Contact");
-      console.log("2. Display Contacts");
-      console.log("3. Edit Contact");
-      console.log("4. Delete Contact");
+      console.log("2. Edit Contact");
+      console.log("3. Delete Contact");
+      console.log("4. Display Contacts");
       console.log("5. Back");
       const choice = readline.question("Enter your choice: ");
 
       switch (choice) {
         case "1":
-            const newContact = this.getContactDetails(false) as ContactPerson; 
-            addressBook.addContact(newContact);
+          const newContact = this.getContactDetails();
+          addressBook.addContact(newContact);
           break;
         case "2":
-          addressBook.displayContacts();
+          const editName = readline.question("Enter the first name of the contact to edit: ");
+          addressBook.editContact(editName);
           break;
-          case "3" :
-            const editName = readline.question("Enter the name of the contact to edit (First Last): ");
-            const updatedDetails = this.getContactDetails(true);
-            addressBook.editContact(editName, updatedDetails);
-          break;
-          case "4" :
-            const deleteName = readline.question("Enter the name of the contact to delete (First Last): ");
+        case "3":
+          const deleteName = readline.question("Enter the first name of the contact to delete: ");
           addressBook.deleteContact(deleteName);
           break;
-         case "5":
-            console.log("Existing from address book..!");
+        case "4":
+          addressBook.displayContacts();
+          break;
+        case "5":
           return;
         default:
           console.log("Invalid choice. Try again.");
@@ -88,42 +84,27 @@ class AddressBookMain {
     }
   }
 
-  displayAllAddressBook(): void{
-    if(this.addressBooks.size===0){
-      console.log("Address Books Not Found.!");
-    }
-    else{
-    this.addressBooks.forEach((addressBook, name) => {
-      console.log(`Address Book Name: ${name}`);
-      addressBook.displayContacts();
+  searchPersonAcrossAddressBooks(): void {
+    const location = readline.question("Enter City or State to search: ");
+    let results: ContactPerson[] = [];
+    this.addressBooks.forEach(addressBook => {
+      results = results.concat(addressBook.searchByCityOrState(location));
     });
-  }
-    
+    console.log("Search results across all Address Books:", results);
   }
 
-  getContactDetails(isPartial: boolean = false): Partial<ContactPerson> | ContactPerson {
-    const details: any = {};
-    const fields = ["First Name", "Last Name", "Address", "City", "State", "Zip", "Phone Number", "Email"];
 
-    fields.forEach((field) => {
-      const value = readline.question(`Enter ${field}: `);
-      if (isPartial && value.trim() === "") return; 
-      details[field.toLowerCase().replace(/ /g, "")] = field === "Zip" ? parseInt(value) : value;
-    });
-
-    if (!isPartial) {       
-        return new ContactPerson(
-          details.firstname,
-          details.lastname,
-          details.address,
-          details.city,
-          details.state,
-          details.zip,
-          details.phonenumber,
-          details.email
-        );
-      }
-  return details;
+  getContactDetails(): ContactPerson {
+    return {
+      firstName: readline.question("Enter First Name: "),
+      lastName: readline.question("Enter Last Name: "),
+      address: readline.question("Enter Address: "),
+      city: readline.question("Enter City: "),
+      state: readline.question("Enter State: "),
+      zip: parseInt(readline.question("Enter Zip: ")),
+      phoneNumber: readline.question("Enter Phone Number: "),
+      email: readline.question("Enter Email: ")
+    };
   }
 }
 
