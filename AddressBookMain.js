@@ -15,7 +15,8 @@ var AddressBookMain = /** @class */ (function () {
             console.log("3. Search Person by City or State Across All Address Books");
             console.log("4. Count Contacts by City or State Across All Address Books");
             console.log("5. Sort Contacts by Name Across All Address Books");
-            console.log("6. Exit");
+            console.log("6. Sort Contacts by City, State, or Zip Across All Address Books");
+            console.log("7. Exit");
             var choice = readline.question("Enter your choice: ");
             switch (choice) {
                 case "1":
@@ -34,6 +35,9 @@ var AddressBookMain = /** @class */ (function () {
                     this.sortContactsByNameAcrossAllAddressBooks();
                     break;
                 case "6":
+                    this.sortContactsAcrossAddressBooks();
+                    break;
+                case "7":
                     console.log("Exiting Address Book Program. Goodbye!");
                     return;
                 default:
@@ -112,6 +116,37 @@ var AddressBookMain = /** @class */ (function () {
         });
         allContacts.sort(function (a, b) { return a.firstName.localeCompare(b.firstName); });
         console.log("Sorted Contacts:", allContacts);
+    };
+    AddressBookMain.prototype.sortContactsAcrossAddressBooks = function () {
+        console.log("\nSort Contacts By:");
+        console.log("1. City");
+        console.log("2. State");
+        console.log("3. Zip");
+        var choice = readline.question("Enter your choice: ");
+        var key;
+        if (choice === "1") {
+            key = "city";
+        }
+        else if (choice === "2") {
+            key = "state";
+        }
+        else if (choice === "3") {
+            key = "zip";
+        }
+        else {
+            console.log("Invalid choice. Returning to menu.");
+            return;
+        }
+        var allContacts = [];
+        this.addressBooks.forEach(function (addressBook) {
+            allContacts = allContacts.concat(addressBook["contacts"]);
+        });
+        allContacts.sort(function (a, b) {
+            return typeof a[key] === "string"
+                ? a[key].localeCompare(b[key])
+                : a[key] - b[key];
+        });
+        console.log("Sorted Contacts by ".concat(key, ":"), allContacts);
     };
     AddressBookMain.prototype.getContactDetails = function () {
         return {

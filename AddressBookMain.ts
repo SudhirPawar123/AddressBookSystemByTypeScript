@@ -14,7 +14,8 @@ class AddressBookMain {
       console.log("3. Search Person by City or State Across All Address Books");
       console.log("4. Count Contacts by City or State Across All Address Books");
       console.log("5. Sort Contacts by Name Across All Address Books");
-      console.log("6. Exit");
+      console.log("6. Sort Contacts by City, State, or Zip Across All Address Books");
+      console.log("7. Exit");
       const choice = readline.question("Enter your choice: ");
 
       switch (choice) {
@@ -33,9 +34,12 @@ class AddressBookMain {
               case "5":
                 this.sortContactsByNameAcrossAllAddressBooks();
                 break;
-              case "6":
+                case "6":
+                this.sortContactsAcrossAddressBooks();
+                break;
+                case "7":
                 console.log("Exiting Address Book Program. Goodbye!");
-                return;
+                  return;
         default:
           console.log("Invalid choice. Try again.");
       }
@@ -117,6 +121,43 @@ class AddressBookMain {
     allContacts.sort((a, b) => a.firstName.localeCompare(b.firstName));
     console.log("Sorted Contacts:", allContacts);
   }
+  
+  sortContactsAcrossAddressBooks(): void {
+    console.log("\nSort Contacts By:");
+    console.log("1. City");
+    console.log("2. State");
+    console.log("3. Zip");
+    const choice = readline.question("Enter your choice: ");
+
+    let key: "city" | "state" | "zip";
+
+    if (choice === "1") {
+        key = "city";
+    } else if (choice === "2") {
+        key = "state";
+    } else if (choice === "3") {
+        key = "zip";
+    } else {
+        console.log("Invalid choice. Returning to menu.");
+        return;
+    }
+
+    let allContacts: ContactPerson[] = [];
+    this.addressBooks.forEach(addressBook => {
+        allContacts = allContacts.concat(addressBook["contacts"]);
+    });
+
+    allContacts.sort((a, b) =>
+        typeof a[key] === "string"
+            ? (a[key] as string).localeCompare(b[key] as string)
+            : (a[key] as number) - (b[key] as number)
+    );
+
+    console.log(`Sorted Contacts by ${key}:`, allContacts);
+}
+
+
+ 
   getContactDetails(): ContactPerson {
     return {
       firstName: readline.question("Enter First Name: "),
